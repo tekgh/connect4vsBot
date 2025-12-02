@@ -19,11 +19,42 @@ def BotMove(place):
             return True
     return False
 
-
+def WinCon(player):
+    #poziom
+    for row in range (6):
+        for col in range(4):
+            if all(board[row][col+i] ==player for i in range(4)):
+                return True
+    #pion
+    for row in range (7):
+        for col in range(3):
+            if all(board[row+i][col] == player for i in range(4)):
+                return True
+    #skos/
+    for row in range (4):
+        for col in range(3):
+            if all(board[row+i][col+i] == player for i in range(4)):
+                return True
+    #skos\
+    for row in range (3):
+        for col in range(3,7):
+            if all(board[row+i][col-i] == player for i in range(4)):
+                return True
+    return False
+    
+     
 #Główny program
 BoardPrint()
 while(1):
     place=int(input("Gdzie chcesz postawić X?(1-7): "))
     PlayerMove(place)
+    if WinCon("X"):
+        BoardPrint()
+        print("Wygrałeś!")
+        break
     BotMove(random.randrange(7))
+    if WinCon("O"):
+        BoardPrint()
+        print("Przegrałeś!")
+        break
     BoardPrint()
